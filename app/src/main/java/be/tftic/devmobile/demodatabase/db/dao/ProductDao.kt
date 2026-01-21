@@ -1,5 +1,6 @@
 package be.tftic.devmobile.demodatabase.db.dao
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -30,6 +31,34 @@ class ProductDao(context: Context) {
 
     private fun requireDb() : SQLiteDatabase {
         return db ?:  throw RuntimeException("Database not open ! (╯°□°）╯︵ ┻━┻")
+    }
+    //endregion
+
+    //region Méthode utilitaire
+    private fun cursorToProduct(cursor: Cursor): Product {
+        val product = Product(
+            cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.Product.ID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Product.NAME)),
+            cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Product.EAN13)),
+            cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.Product.PRICE)),
+            cursor.getStringOrNull(cursor.getColumnIndexOrThrow(DbContract.Product.DESC)),
+            LocalDate.parse(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Product.RELEASE_DATE))),
+            cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.Product.IN_STOCK)) == 1.0
+        )
+
+        return product
+    }
+
+    private fun productToContentValues(product: Product): ContentValues {
+        // Premet de créer un objet qui lie le nom de la colonnes et la valeur de l'objet
+        return ContentValues().apply {
+            put(DbContract.Product.NAME, product.name)
+            put(DbContract.Product.EAN13, product.ean13)
+            put(DbContract.Product.DESC, product.desc)
+            put(DbContract.Product.PRICE, product.price)
+            put(DbContract.Product.RELEASE_DATE, product.releaseDate.toString())
+            put(DbContract.Product.IN_STOCK, product.inStock)
+        }
     }
     //endregion
 
@@ -70,19 +99,60 @@ class ProductDao(context: Context) {
         return result
     }
 
-    private fun cursorToProduct(cursor: Cursor): Product {
-        val product = Product(
-            cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.Product.ID)),
-            cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Product.NAME)),
-            cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Product.EAN13)),
-            cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.Product.PRICE)),
-            cursor.getStringOrNull(cursor.getColumnIndexOrThrow(DbContract.Product.DESC)),
-            LocalDate.parse(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Product.RELEASE_DATE))),
-            cursor.getDouble(cursor.getColumnIndexOrThrow(DbContract.Product.IN_STOCK)) == 1.0
-        )
+    fun getById(productId: Long) : Product? {
+        val db = requireDb()
 
-        return product
+        // Utilisation du cursor via l'ecriture "use" de kotlin
+        db.query(
+            DbContract.Product.TABLE_NAME,
+            null,
+            "${DbContract.Product.ID} = ?",    // La clause WHERE pour obtenir un produit via l'id
+            arrayOf(productId.toString()), // Les parametres necessaire de la clause WHERE
+            null,
+            null,
+            null
+        ).use { cursor ->
+
+            if(!cursor.moveToFirst()) {
+                return null
+            }
+            return cursorToProduct(cursor)
+        }
     }
 
+    fun insert(product: Product) : Long {
+        val db = requireDb()
+
+        return db.insertOrThrow(
+            DbContract.Product.TABLE_NAME,
+            null,
+            productToContentValues(product)
+        )
+    }
+
+    fun delete(productId: Long) : Boolean {
+        val db = requireDb()
+
+        val nbRowDeleted = db.delete(
+            DbContract.Product.TABLE_NAME,
+            "${DbContract.Product.ID} = ?",
+            arrayOf(productId.toString())
+        )
+
+        return nbRowDeleted == 1
+    }
+
+    fun update(product: Product) : Boolean {
+        val db = requireDb()
+
+        val nbRowUpdated = db.update(
+            DbContract.Product.TABLE_NAME,
+            productToContentValues(product),
+            "${DbContract.Product.ID} = ?",
+            arrayOf(product.id.toString())
+        )
+
+        return nbRowUpdated == 1
+    }
     //endregion
 }
