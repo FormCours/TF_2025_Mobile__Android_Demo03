@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CreateProductActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/label_product_width"
+            android:layout_height="wrap_content"
+            android:text="@string/label_product_name"
+            android:labelFor="@id/et_create_product_name"
+            />
+
+        <EditText
+            android:id="@+id/et_create_product_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/label_product_width"
+            android:layout_height="wrap_content"
+            android:text="@string/label_product_ean"
+            android:labelFor="@id/et_create_product_ean"
+            />
+
+        <EditText
+            android:id="@+id/et_create_product_ean"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text|number"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/label_product_width"
+            android:layout_height="wrap_content"
+            android:text="@string/label_product_desc"
+            android:labelFor="@id/et_create_product_desc"
+            />
+
+        <EditText
+            android:id="@+id/et_create_product_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="textMultiLine"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/label_product_width"
+            android:layout_height="wrap_content"
+            android:text="@string/label_product_price"
+            android:labelFor="@id/et_create_product_price"
+            />
+
+        <EditText
+            android:id="@+id/et_create_product_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="numberDecimal"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/label_product_width"
+            android:layout_height="wrap_content"
+            android:text="@string/label_product_date"
+            android:labelFor="@id/et_create_product_release_date"
+            />
+
+        <EditText
+            android:id="@+id/et_create_product_release_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="date"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_create_product_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_product"
+        />
+
+</LinearLayout>

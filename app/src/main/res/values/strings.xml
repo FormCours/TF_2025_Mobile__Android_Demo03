@@ -44,7 +44,13 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="frag_title_product_list">Liste des produits</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="frag_title_product_detail">Detail du produit</string>
+    <string name="label_product_name">Nom :</string>
+    <string name="label_product_ean">EAN :</string>
+    <string name="label_product_desc">Description :</string>
+    <string name="label_product_price">Prix :</string>
+    <string name="label_product_date">Date de sortie :</string>
+    <string name="btn_add_product">Ajouter le produit</string>
 </resources>
