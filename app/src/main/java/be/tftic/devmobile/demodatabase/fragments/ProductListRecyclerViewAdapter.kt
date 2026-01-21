@@ -9,14 +9,11 @@ import be.tftic.devmobile.demodatabase.R
 
 import be.tftic.devmobile.demodatabase.fragments.placeholder.PlaceholderContent.PlaceholderItem
 import be.tftic.devmobile.demodatabase.databinding.FragmentProductItemBinding
+import be.tftic.devmobile.demodatabase.models.Product
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
-class ProductListRecyclerViewAdapter(
-    private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<ProductListRecyclerViewAdapter.ViewHolder>() {
+class ProductListRecyclerViewAdapter() : RecyclerView.Adapter<ProductListRecyclerViewAdapter.ViewHolder>() {
+
+    private var values: List<Product> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -32,19 +29,27 @@ class ProductListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.tvName.text = item.name
+        holder.tvEan13.text = item.ean13
+        holder.tvPrice.text = "${item.price} €"
     }
 
     override fun getItemCount(): Int = values.size
 
+    fun updateData(products : List<Product>) {
+        values = products
+        notifyDataSetChanged() // Méthode simple -> D'autre méthode existe pour optimiser la modification
+    }
+
     inner class ViewHolder(binding: FragmentProductItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
+
+        val tvName: TextView = binding.productItemName
+        val tvEan13: TextView = binding.productItemEan13
+        val tvPrice: TextView = binding.productItemPrice
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + tvName.text + "'"
         }
     }
 
