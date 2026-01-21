@@ -23,7 +23,7 @@ object DbContract {
         // Scripts
         val SCRIPT_CREATE =
             "CREATE TABLE $TABLE_NAME ( " +
-                    "$ID INT PRIMARY KEY AUTOINCREMENT, " +
+                    "$ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "$NAME VARCHAR(50), " +
                     "$EAN13 VARCHAR(13) UNIQUE, " +
                     "$PRICE REAL CHECK($PRICE >= 0), " +
