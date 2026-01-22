@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import be.tftic.devmobile.demodatabase.R
 
@@ -11,7 +12,9 @@ import be.tftic.devmobile.demodatabase.fragments.placeholder.PlaceholderContent.
 import be.tftic.devmobile.demodatabase.databinding.FragmentProductItemBinding
 import be.tftic.devmobile.demodatabase.models.Product
 
-class ProductListRecyclerViewAdapter() : RecyclerView.Adapter<ProductListRecyclerViewAdapter.ViewHolder>() {
+class ProductListRecyclerViewAdapter(
+    private val onProductClick : (Long) -> Unit
+) : RecyclerView.Adapter<ProductListRecyclerViewAdapter.ViewHolder>() {
 
     private var values: List<Product> = emptyList()
 
@@ -32,6 +35,10 @@ class ProductListRecyclerViewAdapter() : RecyclerView.Adapter<ProductListRecycle
         holder.tvName.text = item.name
         holder.tvEan13.text = item.ean13
         holder.tvPrice.text = "${item.price} €"
+
+        holder.layout.setOnClickListener {
+            onProductClick(item.id)
+        }
     }
 
     override fun getItemCount(): Int = values.size
@@ -44,6 +51,7 @@ class ProductListRecyclerViewAdapter() : RecyclerView.Adapter<ProductListRecycle
     inner class ViewHolder(binding: FragmentProductItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        val layout : LinearLayout = binding.productItem
         val tvName: TextView = binding.productItemName
         val tvEan13: TextView = binding.productItemEan13
         val tvPrice: TextView = binding.productItemPrice
